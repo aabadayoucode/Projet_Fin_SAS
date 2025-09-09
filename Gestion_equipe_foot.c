@@ -1,4 +1,14 @@
 #include <stdio.h>
+#include <string.h>
+#define MAX_T_CHAR 50
+
+struct Joueur
+{
+    int id;
+    char nom[MAX_T_CHAR], prenom[MAX_T_CHAR], poste[MAX_T_CHAR];
+    int age,buts,numeroMaillot;
+
+};
 
 int Menu(){ 
 
@@ -20,11 +30,48 @@ int Menu(){
     return choix;
 }
 
+int ajouterJoueur(struct Joueur Joueurs[],int nbrJoueur){
+
+    for (int i = 0; i < 5; i++)
+    {   
+        Joueurs[i].id = i+1;
+
+        printf("Donner le nom: ");
+        fgets(Joueurs[i].nom,MAX_T_CHAR,stdin);
+        Joueurs[i].nom[strcspn(Joueurs[i].nom,"\n")]='\0';
+
+        printf("Donner le prenom: ");
+        fgets(Joueurs[i].prenom,MAX_T_CHAR,stdin);
+        Joueurs[i].prenom[strcspn(Joueurs[i].prenom,"\n")]='\0';
+
+        printf("Donner le numero Maillot: ");
+        scanf("%d",Joueurs[i].numeroMaillot);
+        getchar();
+
+        printf("Donner le poste: ");
+        fgets(Joueurs[i].poste,MAX_T_CHAR,stdin);
+        Joueurs[i].poste[strcspn(Joueurs[i].poste,"\n")]='\0';
+
+        printf("Donner l'age: ");
+        scanf("%d",Joueurs[i].age);
+        getchar();
+
+        printf("Donner le nombre de buts: ");
+        scanf("%d",Joueurs[i].buts);
+        getchar();
+
+    }
+    
+
+
+    return nbrJoueur;
+}
 
 
 
 int main () {
-    int choix;
+    int choix,nbrJoueur = 0;
+    struct Joueur Joueurs[5];
 
     do
     {
@@ -32,7 +79,8 @@ int main () {
         switch (choix)
         {
         case 1:
-            printf("Hello !! \n");
+            nbrJoueur = ajouterJoueur(Joueurs, nbrJoueur);
+
             break;
         case 7:
             printf("Au revoir !");
