@@ -297,6 +297,18 @@ int nbrJoueur = 5;
                 break;
             }
             break;
+        case 3:
+            printf("Modification!");
+            break;
+        case 4:
+            printf("Supprition!");
+            break;
+        case 5:
+            printf("Recherche!");
+            break;
+        case 6:
+            printf("Statistique!");
+            break;
         case 7:
             printf("Au revoir!");
             break;
