@@ -30,7 +30,7 @@ int MenuAjouter()
 
     printf("1. Ajouter un nouveau joueur \n");
     printf("2. Ajouter plusieur joueurs \n");
-
+    printf("0. Quitez \n");
     printf("Donner voitre Choix: ");
     scanf("%d", &choixAjouter);
     getchar();
@@ -299,7 +299,8 @@ int main()
         switch (choix)
         {
         case 1:
-
+            do
+            {
             choixAjouter = MenuAjouter();
 
             switch (choixAjouter)
@@ -310,14 +311,19 @@ int main()
             case 2:
                 nbrJoueur = ajouterPlusieursJoueur(Equipe, nbrJoueur);
                 break;
+            case 0:
+                break;
             default:
                 printf("Donner soit 1 soit 2 !! \n");
                 break;
             }
+            } while (choixAjouter != 0);
 
             break;
         case 2:
-            choixAfficher = MenuAfficher();
+            do
+            {
+                choixAfficher = MenuAfficher();
 
             switch (choixAfficher)
             {
@@ -337,11 +343,14 @@ int main()
                 printf("La liste des joueur trie par id: ");
                 afficherListeJoueur(Equipe, nbrJoueur);
                 break;
-
+            case 0:
+                break;
             default:
                 printf("Donner un choix entre 1 et 3 !! \n");
                 break;
             }
+            } while (choixAfficher != 0);
+            
             break;
         case 3:
             printf("Modification!");
