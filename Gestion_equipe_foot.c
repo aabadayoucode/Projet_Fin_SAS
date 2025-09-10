@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
-#define MAX_N_J 5
+#define MAX_N_J 100
 #define MAX_CH 50
 
 int Menu()
@@ -45,7 +46,6 @@ int MenuAfficher()
     printf("1. Affichier les joueurs par ordre alphabetique \n");
     printf("2. Affichier  les joueurs par age. \n");
     printf("3. Affichier les joueurs par poste. \n");
-    printf("4. Affichier les joueurs par ID. \n");
     printf("0. Quitez \n");
     printf("Donner voitre Choix: ");
     scanf("%d", &choixAfficher);
@@ -66,13 +66,28 @@ int MenuRecherche()
 
     return choixRecherche;
 }
+
+int MenuModifier()
+{
+    int choixModifier;
+    printf("1. Modifier le poste d'un joueur. \n");
+    printf("2. Modifier l'age d'un joueur. \n");
+    printf("3. Modifier le nombre de buts marqués par un joueur. \n");
+    printf("0. Quitez \n");
+    printf("Donner voitre Choix: ");
+    scanf("%d", &choixModifier);
+    getchar();
+
+    return choixModifier;
+}
+
 struct Joueur
 {
     int id, numeroMaillot, age, buts;
     char nom[MAX_CH], prenom[MAX_CH], poste[MAX_CH];
 };
 
-int idJ = 1;
+int idJ = 8;
 
 int ajouterJoueur(struct Joueur J[], int nbrJoueur)
 {
@@ -147,7 +162,7 @@ void afficherListeJoueur(struct Joueur J[], int nbrJoueur)
     {
         for (int i = 0; i < nbrJoueur; i++)
         {
-            printf("Id:%d  -le nom: %s-le prenom: %s -le poste: %s-age: %d ans -Numero Maillot: %d -Buts: %d \n", J[i].id, J[i].nom, J[i].prenom, J[i].poste, J[i].age, J[i].numeroMaillot, J[i].buts);
+            printf("Joueur %d :Id:%d  -le nom: %s -le prenom: %s -le poste: %s-age: %d ans -Numero Maillot: %d -Buts: %d \n",i+1, J[i].id, J[i].nom, J[i].prenom, J[i].poste, J[i].age, J[i].numeroMaillot, J[i].buts);
         }
     }
     else
@@ -160,15 +175,34 @@ void afficherListeJoueur(struct Joueur J[], int nbrJoueur)
 
 void afficherJoueurRecherche(struct Joueur J[], int position, int nbrJoueur)
 {
-    if (position >= 0 && idJ <= nbrJoueur)
+    if (position >= 0 && position <= nbrJoueur)
     {
         printf("Le Joueur rechercher est:\n");
         printf("Id:%d -le nom: %s-le prenom: %s -le poste: %s-age: %d ans -Numero Maillot: %d -Buts: %d \n",
-        J[position].id, J[position].nom, J[position].prenom, J[position].poste, J[position].age, J[position].numeroMaillot, J[position].buts);
+               J[position].id, J[position].nom, J[position].prenom, J[position].poste, J[position].age, J[position].numeroMaillot, J[position].buts);
     }
     else
     {
         printf("Aucun Joueur avce ce id!!\n");
+    }
+}
+
+int comparerEnMjuscule(char mot1[], char mot2[])
+{
+    int k = 0;
+
+    while (mot1[k] != 0 && mot2[k] != 0)
+    {
+        char c1 = tolower(mot1[k]);
+        char c2 = tolower(mot2[k]);
+
+        if (c1 != c2)
+        {
+            return c1 - c2;
+        }
+        k++;
+
+        return tolower((unsigned char)mot1[k]) - tolower((unsigned char)mot2[k]);
     }
 }
 
@@ -187,7 +221,7 @@ struct Joueur *triParNom(struct Joueur J[], int nbrJoueur)
         {
             for (int k = i + 1; k < nbrJoueur; k++)
             {
-                if (strcmp(J[i].nom, J[k].nom) > 0) // 97 - 98 = -1
+                if (comparerEnMjuscule(J[i].nom, J[k].nom) > 0) // 97 - 98 = -1
                 {
                     Vtemp = J[k];
                     J[k] = J[i];
@@ -243,7 +277,7 @@ struct Joueur *triParPoste(struct Joueur J[], int nbrJoueur)
         {
             for (int z = i + 1; z < nbrJoueur; z++)
             {
-                if (strcmp(J[i].poste, J[z].poste) > 0) // 97 98
+                if (comparerEnMjuscule(J[i].poste, J[z].poste) > 0) // 97 98
                 {
                     Vtemp = J[z];
                     J[z] = J[i];
@@ -274,19 +308,51 @@ int rechercherParId(struct Joueur J[], int nbrJoueur)
     return -1;
 }
 
+int rechercherParNom(struct Joueur J[], int nbrJoueur)
+{
+    char nomC[MAX_CH];
+    int existe = 0;
+    printf("Donner l'id de Joueur: ");
+    scanf("%s", &nomC);
+    getchar();
+
+    for (int i = 0; i < nbrJoueur; i++)
+    {
+        if (comparerEnMjuscule(nomC, J[i].nom) == 0)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void modifierPost(struct Joueur J[],int position)
+{
+    char NeauveauPoste[MAX_CH];
+
+    printf("Donner le nouveau poste: ");
+    fgets(NeauveauPoste, MAX_CH, stdin);
+    NeauveauPoste[strcspn(NeauveauPoste, "\n")] = '\0';
+
+    strcpy(J[position].poste,NeauveauPoste);
+
+}
+
 int main()
 {
     int choix;
-    //  int nbrJoueur = 0;
-    //  struct Joueur Equipe[MAX_N_J];
-
-    int nbrJoueur = 5;
+    int nbrJoueur = 7;
+    // struct Joueur Equipe[MAX_N_J];
+    // int nbrJoueur = MAX_N_J;
     struct Joueur Equipe[MAX_N_J] = {
-        {1, 10, 22, 575, "ABADA", "AZIZ", "Attaquant"},
-        {2, 3, 25, 412, "ELKANDALI", "HAMZA", "Defenseur doit"},
-        {3, 8, 20, 657, "ELIDLI", "YOUNES", "Milieu"},
-        {4, 1, 28, 140, "CHERFOUNE", "MOHAMMED", "BGardien"},
-        {5, 7, 23, 335, "JAMIA", "ISMAI", "Defenseur gouche"}};
+    {1, 10, 36, 800, "MESSI", "LIONEL", "Attaquant"},
+    {2, 7, 39, 850, "RONALDO", "CRISTIANO", "Attaquant"},
+    {3, 9, 35, 400, "BENZEMA", "KARIM", "Attaquant"},
+    {4, 11, 23, 150, "MBAPPE", "KYLIAN", "Attaquant"},
+    {5, 17, 33, 120, "MODRIC", "LUKA", "Milieu"},
+    {6, 6, 32, 90, "DE BRUYNE", "KEVIN", "Milieu"},
+    {7, 1, 32, 0, "COURTOIS", "THIBAUT", "Gardien"}
+};
 
     do
     {
@@ -295,28 +361,29 @@ int main()
         int choixAfficher;
         int choixRecherche;
         int position;
+        int choixAModier;
 
         switch (choix)
         {
         case 1:
             do
             {
-            choixAjouter = MenuAjouter();
+                choixAjouter = MenuAjouter();
 
-            switch (choixAjouter)
-            {
-            case 1:
-                nbrJoueur = ajouterJoueur(Equipe, nbrJoueur);
-                break;
-            case 2:
-                nbrJoueur = ajouterPlusieursJoueur(Equipe, nbrJoueur);
-                break;
-            case 0:
-                break;
-            default:
-                printf("Donner soit 1 soit 2 !! \n");
-                break;
-            }
+                switch (choixAjouter)
+                {
+                case 1:
+                    nbrJoueur = ajouterJoueur(Equipe, nbrJoueur);
+                    break;
+                case 2:
+                    nbrJoueur = ajouterPlusieursJoueur(Equipe, nbrJoueur);
+                    break;
+                case 0:
+                    break;
+                default:
+                    printf("Donner soit 1 soit 2 !! \n");
+                    break;
+                }
             } while (choixAjouter != 0);
 
             break;
@@ -325,35 +392,64 @@ int main()
             {
                 choixAfficher = MenuAfficher();
 
-            switch (choixAfficher)
-            {
-            case 1:
-                printf("La liste des joueur trie par nom: ");
-                afficherListeJoueur(triParNom(Equipe, nbrJoueur), nbrJoueur);
-                break;
-            case 2:
-                printf("La liste des joueur trie par Age: ");
-                afficherListeJoueur(triParAge(Equipe, nbrJoueur), nbrJoueur);
-                break;
-            case 3:
-                printf("La liste des joueur trie par poste: ");
-                afficherListeJoueur(triParPoste(Equipe, nbrJoueur), nbrJoueur);
-                break;
-            case 4:
-                printf("La liste des joueur trie par id: ");
-                afficherListeJoueur(Equipe, nbrJoueur);
-                break;
-            case 0:
-                break;
-            default:
-                printf("Donner un choix entre 1 et 3 !! \n");
-                break;
-            }
+                switch (choixAfficher)
+                {
+                case 1:
+                    printf("La liste des joueur trie par nom: ");
+                    afficherListeJoueur(triParNom(Equipe, nbrJoueur), nbrJoueur);
+                    break;
+                case 2:
+                    printf("La liste des joueur trie par Age: ");
+                    afficherListeJoueur(triParAge(Equipe, nbrJoueur), nbrJoueur);
+                    break;
+                case 3:
+                    printf("La liste des joueur trie par poste: ");
+                    afficherListeJoueur(triParPoste(Equipe, nbrJoueur), nbrJoueur);
+                    break;
+                case 0:
+                    break;
+                default:
+                    printf("Donner un choix entre 1 et 3 !! \n");
+                    break;
+                }
             } while (choixAfficher != 0);
-            
+
             break;
         case 3:
-            printf("Modification!");
+            position = rechercherParId(Equipe, nbrJoueur);
+            if (position >= 0)
+            {
+                afficherJoueurRecherche(Equipe, position, nbrJoueur);
+
+                do
+                {
+                    choixAModier = MenuModifier();
+
+                    switch (choixAModier)
+                    {
+                    case 1:
+                        modifierPost(Equipe,position);
+                        break;
+                    case 2:
+                        /* code */
+                        break;
+                    case 3:
+                        /* code */
+                        break;
+                    case 0:
+                        /* code */
+                        break;
+
+                    default:
+                        printf("Donner un choix entre 0 et 3 !");
+                        break;
+                    }
+                } while (choixAModier != 0);
+            }
+            else
+            {
+                printf("Aucun joueur avce ce id !");
+            }
             break;
         case 4:
             printf("Supprition!");
@@ -362,7 +458,6 @@ int main()
             do
             {
                 choixRecherche = MenuRecherche();
-
                 switch (choixRecherche)
                 {
                 case 1:
@@ -370,10 +465,10 @@ int main()
                     afficherJoueurRecherche(Equipe, position, nbrJoueur);
                     break;
                 case 2:
-
+                    position = rechercherParNom(Equipe, nbrJoueur);
+                    afficherJoueurRecherche(Equipe, position, nbrJoueur);
                     break;
                 case 0:
-                    printf("0. Quitez \n");
                     break;
                 default:
                     printf("Donner un choix entre 1 et 2 ou 0!! \n");
@@ -381,7 +476,6 @@ int main()
                 }
 
             } while (choixRecherche != 0);
-
             break;
         case 6:
             printf("Statistique!");

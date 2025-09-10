@@ -40,7 +40,6 @@ Rechercher un joueur :
 Rechercher un joueur par Identifiant.
 Rechercher un joueur par Nom.
 
-
 Statistiques :
 Afficher le nombre total de joueurs dans l’équipe.
 Afficher l’âge moyen des joueurs.
