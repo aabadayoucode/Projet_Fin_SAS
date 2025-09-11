@@ -49,9 +49,9 @@ Afficher le joueur le plus jeune et le plus âgé.
 
 
 Bonus :
-Attribuer une date d’inscription à chaque joueur (cette date ne peut pas être modifiée).
-Offrir la possibilité d’affecter un joueur à une position spécifique dans l’équipe (par exemple : titulaire ou remplaçant).
-Une fois qu’un joueur marque un certain nombre de buts (par exemple 10), afficher un message spécial indiquant qu’il est une star de l’équipe.
+Attribuer une date d’inscription à chaque joueur (cette date ne peut pas être modifiée)./////////////
+Offrir la possibilité d’affecter un joueur à une position spécifique dans l’équipe (par exemple : titulaire ou remplaçant).XXXXXXXXXX
+Une fois qu’un joueur marque un certain nombre de buts (par exemple 10), afficher un message spécial indiquant qu’il est une star de l’équipe.///////////
 Rechercher par critère spécifique (par poste, par tranche d’âge, etc.).
 Utiliser des fichiers pour enregistrer les données.
 Utilisation de tableaux dynamiques.

@@ -18,7 +18,7 @@ int Menu()
     printf("6. Statistiques \n");
     printf("7. Quitez \n");
     printf("======Fin Menu========\n");
-    printf("Donner voitre Choix: ");
+    printf("Donner voitre Choix:-> ");
     scanf("%d", &choix);
     getchar();
 
@@ -32,7 +32,7 @@ int MenuAjouter()
     printf("1. Ajouter un nouveau joueur \n");
     printf("2. Ajouter plusieur joueurs \n");
     printf("0. Quitez \n");
-    printf("Donner voitre Choix: ");
+    printf("Donner voitre Choix:-> ");
     scanf("%d", &choixAjouter);
     getchar();
 
@@ -47,7 +47,7 @@ int MenuAfficher()
     printf("2. Affichier  les joueurs par age. \n");
     printf("3. Affichier les joueurs par poste. \n");
     printf("0. Quitez \n");
-    printf("Donner voitre Choix: ");
+    printf("Donner voitre Choix:-> ");
     scanf("%d", &choixAfficher);
     getchar();
 
@@ -60,7 +60,7 @@ int MenuRecherche()
     printf("1. Rechercher un joueur par Identifiant \n");
     printf("2. Rechercher un joueur par Nom \n");
     printf("0. Quitez \n");
-    printf("Donner voitre Choix: ");
+    printf("Donner voitre Choix:-> ");
     scanf("%d", &choixRecherche);
     getchar();
 
@@ -74,7 +74,7 @@ int MenuModifier()
     printf("2. Modifier l'age d'un joueur. \n");
     printf("3. Modifier le nombre de buts marques par un joueur. \n");
     printf("0. Quitez \n");
-    printf("Donner voitre Choix: ");
+    printf("Donner voitre Choix:-> ");
     scanf("%d", &choixModifier);
     getchar();
 
@@ -127,31 +127,31 @@ int ajouterJoueur(struct Joueur J[], int nbrJoueur)
         J[nbrJoueur].id = idJ++;
         int Nstatus = 0;
 
-        printf("Donner le nom: ");
+        printf("Donner le nom:-> ");
         fgets(J[nbrJoueur].nom, MAX_CH, stdin);
         J[nbrJoueur].nom[strcspn(J[nbrJoueur].nom, "\n")] = '\0';
 
-        printf("Donner le prenom: ");
+        printf("Donner le prenom:-> ");
         fgets(J[nbrJoueur].prenom, MAX_CH, stdin);
         J[nbrJoueur].prenom[strcspn(J[nbrJoueur].prenom, "\n")] = '\0';
 
-        printf("Donner le poste: ");
+        printf("Donner le poste:-> ");
         fgets(J[nbrJoueur].poste, MAX_CH, stdin);
         J[nbrJoueur].poste[strcspn(J[nbrJoueur].poste, "\n")] = '\0';
 
-        printf("Donner l'age: ");
+        printf("Donner l'age:-> ");
         scanf("%d", &J[nbrJoueur].age);
         getchar();
 
-        printf("Donner nombre buts: ");
+        printf("Donner nombre buts:-> ");
         scanf("%d", &J[nbrJoueur].buts);
         getchar();
 
-        printf("Donner le numero Maillot: ");
+        printf("Donner le numero Maillot:-> ");
         scanf("%d", &J[nbrJoueur].numeroMaillot);
         getchar();
 
-        printf("Donner la date d'inscription en format JJ/MM/AAAA: ");
+        printf("Donner la date d'inscription en format JJ/MM/AAAA:-> ");
         scanf("%d/%d/%d", &J[nbrJoueur].dateInscription.jour, &J[nbrJoueur].dateInscription.mois, &J[nbrJoueur].dateInscription.annee);
         getchar();
 
@@ -166,7 +166,7 @@ int ajouterPlusieursJoueur(struct Joueur J[], int nbrJoueur)
 {
 
     int nbrJ;
-    printf("Donner le nombre des joueur que vous voulez ajouter: ");
+    printf("Donner le nombre des joueur que vous voulez ajouter:-> ");
     scanf("%d", &nbrJ);
     getchar();
 
@@ -208,7 +208,7 @@ void afficherJoueurRecherche(struct Joueur J[], int position, int nbrJoueur)
 {
     if (position >= 0 && position <= nbrJoueur)
     {
-        printf("Le Joueur rechercher est:\n");
+        printf("Le Joueur rechercher est: \n");
         printf("Id:%d -le nom: %s -le prenom: %s -le poste: %s -age: %d ans -Numero Maillot: %d -Buts: %d Date Inscription: %02d/%02d/%04d\n\n",
                J[position].id, J[position].nom, J[position].prenom, J[position].poste, J[position].age, J[position].numeroMaillot, J[position].buts,
                J[position].dateInscription.jour, J[position].dateInscription.mois, J[position].dateInscription.annee);
@@ -324,7 +324,7 @@ int rechercherParId(struct Joueur J[], int nbrJoueur)
 {
     int idR;
     int existe = 0;
-    printf("Donner l'id de Joueur: ");
+    printf("Donner l'id de Joueur:-> ");
     scanf("%d", &idR);
     getchar();
 
@@ -343,7 +343,7 @@ int rechercherParNom(struct Joueur J[], int nbrJoueur)
 {
     char nomC[MAX_CH];
     int existe = 0;
-    printf("Donner le nom du Joueur: ");
+    printf("Donner le nom du Joueur:-> ");
     scanf("%s", &nomC);
     getchar();
 
@@ -361,7 +361,7 @@ void modifierPost(struct Joueur J[], int position)
 {
     char NeauveauPoste[MAX_CH];
 
-    printf("Donner le nouveau poste: ");
+    printf("Donner le nouveau poste:-> ");
     fgets(NeauveauPoste, MAX_CH, stdin);
     NeauveauPoste[strcspn(NeauveauPoste, "\n")] = '\0';
 
@@ -373,7 +373,7 @@ void modifierAge(struct Joueur J[], int position)
 {
     int NouveauAge;
 
-    printf("Donner le nouveau age: ");
+    printf("Donner le nouveau age:-> ");
     scanf("%d", &NouveauAge);
     J[position].age = NouveauAge;
     printf("La modification a fait avec succes !\n");
@@ -382,11 +382,25 @@ void modifierAge(struct Joueur J[], int position)
 void modifierNbrBut(struct Joueur J[], int position)
 {
     int NouveauNbrBut;
+    int MaxButStar = 10;
 
-    printf("Donner le nouveau buts: ");
+    printf("Donner le nouveau buts:-> ");
     scanf("%d", &NouveauNbrBut);
     J[position].buts = NouveauNbrBut;
+    printf("\n----------------------------------------\n");
     printf("La modification a fait avec succes !\n");
+
+    if (NouveauNbrBut >= MaxButStar)
+    {
+        printf("nom: %s",J[position].nom);
+        printf(" est une star de l'equipe");
+        printf("il est marque %d de buts:",J[position].buts);
+
+    }
+    printf("\n----------------------------------------\n");
+
+
+
 }
 
 int supprimerJoueur(int position, struct Joueur Equipe[], int nbrJoueur)
@@ -416,7 +430,7 @@ void joueurMaxButs(struct Joueur J[], int nbrJoueur)
 {
 
     int nombreMax;
-    printf("Donner le nombre de buts minimum: ");
+    printf("Donner le nombre de buts minimum:-> ");
     scanf("%d", &nombreMax);
     getchar();
 
@@ -464,16 +478,18 @@ void plusAgePlusJeune(struct Joueur J[], int nbrJoueur)
             posAge = i;
         }
     }
-    printf("Le plusJeune est:%s sont age: %d \n", J[posJeun].nom, plusJeune);
-    printf("Le plusJeune est:%s sont age:%d \n", J[posAge].nom, plusAge);
+    printf("Le plusJeune est: %s sont age: %d \n", J[posJeun].nom, plusJeune);
+    printf("Le plusJeune est: %s sont age: %d \n", J[posAge].nom, plusAge);
 }
 
 int main()
 {
     int choix;
     int nbrJoueur = 7;
+
     // struct Joueur Equipe[MAX_N_J];
     // int nbrJoueur = MAX_N_J;
+    
     struct Joueur Equipe[MAX_N_J] = {
         {1, 9, 27, 11, "El Fahli", "Youssef", "Attaquant", {1, 7, 2024}},
         {2, 11, 26, 11, "Rayhi", "Mohammed", "Ailier droit", {1, 7, 2024}},
@@ -515,7 +531,6 @@ int main()
                     break;
                 }
             } while (choixAjouter != 0);
-
             break;
         case 2:
             do
@@ -543,7 +558,6 @@ int main()
                     break;
                 }
             } while (choixAfficher != 0);
-
             break;
         case 3:
             position = rechercherParId(Equipe, nbrJoueur);
@@ -644,7 +658,6 @@ int main()
                 }
 
             } while (choixStatistiques != 0);
-
             break;
         case 7:
             printf("Au revoir!");
