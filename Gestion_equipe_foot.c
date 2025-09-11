@@ -72,7 +72,7 @@ int MenuModifier()
     int choixModifier;
     printf("1. Modifier le poste d'un joueur. \n");
     printf("2. Modifier l'age d'un joueur. \n");
-    printf("3. Modifier le nombre de buts marqués par un joueur. \n");
+    printf("3. Modifier le nombre de buts marques par un joueur. \n");
     printf("0. Quitez \n");
     printf("Donner voitre Choix: ");
     scanf("%d", &choixModifier);
@@ -334,6 +334,7 @@ void modifierPost(struct Joueur J[], int position)
     NeauveauPoste[strcspn(NeauveauPoste, "\n")] = '\0';
 
     strcpy(J[position].poste, NeauveauPoste);
+    printf("La modification a fait avec succes !");
 }
 
 void modifierAge(struct Joueur J[], int position)
@@ -343,6 +344,7 @@ void modifierAge(struct Joueur J[], int position)
     printf("Donner le nouveau age: ");
     scanf("%d", &NouveauAge);
     J[position].age = NouveauAge;
+    printf("La modification a fait avec succes !");
 }
 
 void modifierNbrBut(struct Joueur J[], int position)
@@ -352,6 +354,7 @@ void modifierNbrBut(struct Joueur J[], int position)
     printf("Donner le nouveau age: ");
     scanf("%d", &NouveauNbrBut);
     J[position].buts = NouveauNbrBut;
+    printf("La modification a fait avec succes !");
 }
 
 int supprimerJoueur(int position, struct Joueur Equipe[], int nbrJoueur)
@@ -484,7 +487,6 @@ int main()
             {
                 printf("Aucun joueur avec cet ID trouve !\n");
             }
-
             break;
         case 5:
             do
