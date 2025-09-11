@@ -162,7 +162,7 @@ void afficherListeJoueur(struct Joueur J[], int nbrJoueur)
     {
         for (int i = 0; i < nbrJoueur; i++)
         {
-            printf("Joueur %d :Id:%d  -le nom: %s -le prenom: %s -le poste: %s-age: %d ans -Numero Maillot: %d -Buts: %d \n",i+1, J[i].id, J[i].nom, J[i].prenom, J[i].poste, J[i].age, J[i].numeroMaillot, J[i].buts);
+            printf("Joueur %d :Id:%d  -le nom: %s -le prenom: %s -le poste: %s-age: %d ans -Numero Maillot: %d -Buts: %d \n", i + 1, J[i].id, J[i].nom, J[i].prenom, J[i].poste, J[i].age, J[i].numeroMaillot, J[i].buts);
         }
     }
     else
@@ -201,9 +201,8 @@ int comparerEnMjuscule(char mot1[], char mot2[])
             return c1 - c2;
         }
         k++;
-
-        return tolower((unsigned char)mot1[k]) - tolower((unsigned char)mot2[k]);
     }
+    return tolower((unsigned char)mot1[k]) - tolower((unsigned char)mot2[k]);
 }
 
 struct Joueur *triParNom(struct Joueur J[], int nbrJoueur)
@@ -312,7 +311,7 @@ int rechercherParNom(struct Joueur J[], int nbrJoueur)
 {
     char nomC[MAX_CH];
     int existe = 0;
-    printf("Donner l'id de Joueur: ");
+    printf("Donner le nom du Joueur: ");
     scanf("%s", &nomC);
     getchar();
 
@@ -326,7 +325,7 @@ int rechercherParNom(struct Joueur J[], int nbrJoueur)
     return -1;
 }
 
-void modifierPost(struct Joueur J[],int position)
+void modifierPost(struct Joueur J[], int position)
 {
     char NeauveauPoste[MAX_CH];
 
@@ -334,10 +333,36 @@ void modifierPost(struct Joueur J[],int position)
     fgets(NeauveauPoste, MAX_CH, stdin);
     NeauveauPoste[strcspn(NeauveauPoste, "\n")] = '\0';
 
-    strcpy(J[position].poste,NeauveauPoste);
-
+    strcpy(J[position].poste, NeauveauPoste);
 }
 
+void modifierAge(struct Joueur J[], int position)
+{
+    int NouveauAge;
+
+    printf("Donner le nouveau age: ");
+    scanf("%d", &NouveauAge);
+    J[position].age = NouveauAge;
+}
+
+void modifierNbrBut(struct Joueur J[], int position)
+{
+    int NouveauNbrBut;
+
+    printf("Donner le nouveau age: ");
+    scanf("%d", &NouveauNbrBut);
+    J[position].buts = NouveauNbrBut;
+}
+
+int supprimerJoueur(int position, struct Joueur Equipe[], int nbrJoueur)
+{
+    for (int i = position; i < nbrJoueur - 1; i++)
+    {
+        Equipe[i] = Equipe[i + 1];
+    }
+    nbrJoueur--;
+    return nbrJoueur;
+}
 int main()
 {
     int choix;
@@ -345,14 +370,13 @@ int main()
     // struct Joueur Equipe[MAX_N_J];
     // int nbrJoueur = MAX_N_J;
     struct Joueur Equipe[MAX_N_J] = {
-    {1, 10, 36, 800, "MESSI", "LIONEL", "Attaquant"},
-    {2, 7, 39, 850, "RONALDO", "CRISTIANO", "Attaquant"},
-    {3, 9, 35, 400, "BENZEMA", "KARIM", "Attaquant"},
-    {4, 11, 23, 150, "MBAPPE", "KYLIAN", "Attaquant"},
-    {5, 17, 33, 120, "MODRIC", "LUKA", "Milieu"},
-    {6, 6, 32, 90, "DE BRUYNE", "KEVIN", "Milieu"},
-    {7, 1, 32, 0, "COURTOIS", "THIBAUT", "Gardien"}
-};
+        {1, 10, 36, 800, "MESSI", "LIONEL", "Attaquant"},
+        {2, 7, 39, 850, "RONALDO", "CRISTIANO", "Attaquant"},
+        {3, 9, 35, 400, "BENZEMA", "KARIM", "Attaquant"},
+        {4, 11, 23, 150, "MBAPPE", "KYLIAN", "Attaquant"},
+        {5, 17, 33, 120, "MODRIC", "LUKA", "Milieu"},
+        {6, 6, 32, 90, "DE BRUYNE", "KEVIN", "Milieu"},
+        {7, 1, 32, 0, "COURTOIS", "THIBAUT", "Gardien"}};
 
     do
     {
@@ -428,18 +452,16 @@ int main()
                     switch (choixAModier)
                     {
                     case 1:
-                        modifierPost(Equipe,position);
+                        modifierPost(Equipe, position);
                         break;
                     case 2:
-                        /* code */
+                        modifierAge(Equipe, position);
                         break;
                     case 3:
-                        /* code */
+                        modifierNbrBut(Equipe, position);
                         break;
                     case 0:
-                        /* code */
                         break;
-
                     default:
                         printf("Donner un choix entre 0 et 3 !");
                         break;
@@ -452,7 +474,17 @@ int main()
             }
             break;
         case 4:
-            printf("Supprition!");
+            position = rechercherParId(Equipe, nbrJoueur);
+            if (position >= 0)
+            {
+                nbrJoueur = supprimerJoueur(position, Equipe, nbrJoueur);
+                printf("Joueur supprime avec succes.\n");
+            }
+            else
+            {
+                printf("Aucun joueur avec cet ID trouve !\n");
+            }
+
             break;
         case 5:
             do
