@@ -81,7 +81,8 @@ int MenuModifier()
     return choixModifier;
 }
 
-int MenuStatistiques(){
+int MenuStatistiques()
+{
     int choixStatistiques;
     printf("1. Afficher le nombre total de joueurs dans l'equipe \n");
     printf("2. Afficher l'age moyen des joueurs \n");
@@ -96,10 +97,18 @@ int MenuStatistiques(){
     return choixStatistiques;
 }
 
+struct DateInscription
+{
+    int jour;
+    int mois;
+    int annee;
+};
+
 struct Joueur
 {
     int id, numeroMaillot, age, buts;
     char nom[MAX_CH], prenom[MAX_CH], poste[MAX_CH];
+    struct DateInscription dateInscription;
 };
 
 int idJ = 8;
@@ -116,6 +125,7 @@ int ajouterJoueur(struct Joueur J[], int nbrJoueur)
     {
 
         J[nbrJoueur].id = idJ++;
+        int Nstatus = 0;
 
         printf("Donner le nom: ");
         fgets(J[nbrJoueur].nom, MAX_CH, stdin);
@@ -141,7 +151,12 @@ int ajouterJoueur(struct Joueur J[], int nbrJoueur)
         scanf("%d", &J[nbrJoueur].numeroMaillot);
         getchar();
 
+        printf("Donner la date d'inscription en format JJ/MM/AAAA: ");
+        scanf("%d/%d/%d", &J[nbrJoueur].dateInscription.jour, &J[nbrJoueur].dateInscription.mois, &J[nbrJoueur].dateInscription.annee);
+        getchar();
+
         printf("Le joueur a ete ajouter avec succes ! \n");
+
         nbrJoueur += 1;
     }
     return nbrJoueur;
@@ -177,7 +192,8 @@ void afficherListeJoueur(struct Joueur J[], int nbrJoueur)
     {
         for (int i = 0; i < nbrJoueur; i++)
         {
-            printf("Joueur %d :Id:%d  -le nom: %s -le prenom: %s -le poste: %s-age: %d ans -Numero Maillot: %d -Buts: %d \n", i + 1, J[i].id, J[i].nom, J[i].prenom, J[i].poste, J[i].age, J[i].numeroMaillot, J[i].buts);
+            printf("Joueur %d :Id:%d  -le nom: %s -le prenom: %s -le poste: %s-age: %d ans -Numero Maillot: %d -Buts: %d Date Inscription: %02d/%02d/%04d \n",
+                   i + 1, J[i].id, J[i].nom, J[i].prenom, J[i].poste, J[i].age, J[i].numeroMaillot, J[i].buts, J[i].dateInscription.jour, J[i].dateInscription.mois, J[i].dateInscription.annee);
         }
     }
     else
@@ -193,8 +209,9 @@ void afficherJoueurRecherche(struct Joueur J[], int position, int nbrJoueur)
     if (position >= 0 && position <= nbrJoueur)
     {
         printf("Le Joueur rechercher est:\n");
-        printf("Id:%d -le nom: %s -le prenom: %s -le poste: %s -age: %d ans -Numero Maillot: %d -Buts: %d\n",
-               J[position].id, J[position].nom, J[position].prenom, J[position].poste, J[position].age, J[position].numeroMaillot, J[position].buts);
+        printf("Id:%d -le nom: %s -le prenom: %s -le poste: %s -age: %d ans -Numero Maillot: %d -Buts: %d Date Inscription: %02d/%02d/%04d\n\n",
+               J[position].id, J[position].nom, J[position].prenom, J[position].poste, J[position].age, J[position].numeroMaillot, J[position].buts,
+               J[position].dateInscription.jour, J[position].dateInscription.mois, J[position].dateInscription.annee);
     }
     else
     {
@@ -382,7 +399,8 @@ int supprimerJoueur(int position, struct Joueur Equipe[], int nbrJoueur)
     return nbrJoueur;
 }
 
-void ageMoyenne(struct Joueur J[],int nbrJoueur){
+void ageMoyenne(struct Joueur J[], int nbrJoueur)
+{
     float Moyenne;
     int Somme = 0;
     for (int i = 0; i < nbrJoueur; i++)
@@ -391,43 +409,44 @@ void ageMoyenne(struct Joueur J[],int nbrJoueur){
     }
     Moyenne = Somme / nbrJoueur;
 
-    printf("L'age moyenne de equipe est: %.2f ans \n",Moyenne);
+    printf("L'age moyenne de equipe est: %.2f ans \n", Moyenne);
 }
 
-void joueurMaxButs(struct Joueur J[],int nbrJoueur){
+void joueurMaxButs(struct Joueur J[], int nbrJoueur)
+{
 
     int nombreMax;
     printf("Donner le nombre de buts minimum: ");
-    scanf("%d",&nombreMax);
+    scanf("%d", &nombreMax);
     getchar();
 
     for (int i = 0; i < nbrJoueur; i++)
     {
-        if(nombreMax <= J[i].buts){
+        if (nombreMax <= J[i].buts)
+        {
             printf("Id:%d -le nom: %s-le prenom: %s -le poste: %s-age: %d ans -Numero Maillot: %d -Buts: %d \n",
-               J[i].id, J[i].nom, J[i].prenom, J[i].poste, J[i].age, J[i].numeroMaillot, J[i].buts);
+                   J[i].id, J[i].nom, J[i].prenom, J[i].poste, J[i].age, J[i].numeroMaillot, J[i].buts);
         }
     }
-    
-
 }
 
-void maxButeur(struct Joueur J[],int nbrJoueur){
+void maxButeur(struct Joueur J[], int nbrJoueur)
+{
     int max = J[0].buts;
     int pos;
     for (int i = 0; i < nbrJoueur; i++)
     {
-        if (max<J[i].buts)
+        if (max < J[i].buts)
         {
             max = J[i].buts;
             pos = i;
         }
-        
     }
-    printf("Le buteur est:%s nombre de buts: %d \n",J[pos].nom,max);
+    printf("Le buteur est:%s nombre de buts: %d \n", J[pos].nom, max);
 }
 
-void plusAgePlusJeune(struct Joueur J[],int nbrJoueur){
+void plusAgePlusJeune(struct Joueur J[], int nbrJoueur)
+{
     int plusJeune = J[0].age;
     int posJeun;
     int plusAge = J[0].age;
@@ -445,8 +464,8 @@ void plusAgePlusJeune(struct Joueur J[],int nbrJoueur){
             posAge = i;
         }
     }
-    printf("Le plusJeune est:%s sont age: %d \n",J[posJeun].nom,plusJeune);
-    printf("Le plusJeune est:%s sont age:%d \n",J[posAge].nom,plusAge);
+    printf("Le plusJeune est:%s sont age: %d \n", J[posJeun].nom, plusJeune);
+    printf("Le plusJeune est:%s sont age:%d \n", J[posAge].nom, plusAge);
 }
 
 int main()
@@ -456,13 +475,13 @@ int main()
     // struct Joueur Equipe[MAX_N_J];
     // int nbrJoueur = MAX_N_J;
     struct Joueur Equipe[MAX_N_J] = {
-        {1, 10, 36, 800, "MESSI", "LIONEL", "Attaquant"},
-        {2, 7, 39, 850, "RONALDO", "CRISTIANO", "Attaquant"},
-        {3, 9, 35, 400, "BENZEMA", "KARIM", "Attaquant"},
-        {4, 11, 23, 150, "MBAPPE", "KYLIAN", "Attaquant"},
-        {5, 17, 33, 120, "MODRIC", "LUKA", "Milieu"},
-        {6, 6, 32, 90, "DE BRUYNE", "KEVIN", "Milieu"},
-        {7, 1, 32, 0, "COURTOIS", "THIBAUT", "Gardien"}};
+        {1, 9, 27, 11, "El Fahli", "Youssef", "Attaquant", {1, 7, 2024}},
+        {2, 11, 26, 11, "Rayhi", "Mohammed", "Ailier droit", {1, 7, 2024}},
+        {3, 10, 21, 10, "Lamlioui", "Oussama", "Attaquant", {1, 7, 2024}},
+        {4, 8, 23, 10, "Diarra", "Abdoulaye", "Milieu offensif", {1, 7, 2024}},
+        {5, 7, 26, 6, "Chouiar", "Mounir", "Ailier gauche", {1, 7, 2024}},
+        {6, 5, 25, 2, "Kandouss", "Ismael", "Defenseur central", {1, 7, 2024}},
+        {7, 3, 28, 1, "Attiat Allah", "Yahia", "Arriere gauche", {1, 7, 2024}}};
 
     do
     {
@@ -603,19 +622,19 @@ int main()
                 switch (choixStatistiques)
                 {
                 case 1:
-                    printf("\nLe nombre total des joueur sur l'equipe est: %d \n",nbrJoueur);
+                    printf("\nLe nombre total des joueur sur l'equipe est: %d \n", nbrJoueur);
                     break;
                 case 2:
-                    ageMoyenne(Equipe,nbrJoueur);
+                    ageMoyenne(Equipe, nbrJoueur);
                     break;
                 case 3:
-                    joueurMaxButs(Equipe,nbrJoueur);
+                    joueurMaxButs(Equipe, nbrJoueur);
                     break;
                 case 4:
-                    maxButeur(Equipe,nbrJoueur);
+                    maxButeur(Equipe, nbrJoueur);
                     break;
                 case 5:
-                    plusAgePlusJeune(Equipe,nbrJoueur);
+                    plusAgePlusJeune(Equipe, nbrJoueur);
                     break;
                 case 0:
                     break;
@@ -625,7 +644,7 @@ int main()
                 }
 
             } while (choixStatistiques != 0);
-            
+
             break;
         case 7:
             printf("Au revoir!");
