@@ -250,7 +250,7 @@ int ajouterPlusieursJoueur(struct Joueur J[], int nbrJoueur)
     scanf("%d", &nbrJ);
     getchar();
 
-    if (nbrJ >= MAX_N_J)
+    if ((nbrJ+nbrJoueur) >= MAX_N_J)
     {
         printf("---------------------------L'equipe est complet !!----------------------- \n");
         return nbrJoueur;
@@ -507,10 +507,18 @@ void modifierNbrBut(struct Joueur J[], int position)
 
     printf("Donner le nouveau buts:-> ");
     scanf("%d", &NouveauNbrBut);
-    J[position].buts = NouveauNbrBut;
-    printf("\n-------------------------------------------------------------\n");
-    printf("---------------La modification a fait avec succes !-------------\n");
-    printf("\n--------------------------------------------------------------\n");
+
+
+    if (NouveauNbrBut <=J[position].buts )
+    {
+        printf(" il faut donner un nombre suprieur strictement a %d",J[position].buts );
+    }else
+    {
+        J[position].buts = NouveauNbrBut;
+        printf("\n-------------------------------------------------------------\n");
+        printf("---------------La modification a fait avec succes !-------------\n");
+        printf("\n--------------------------------------------------------------\n");
+    }
 }
 
 int supprimerJoueur(int position, struct Joueur Equipe[], int nbrJoueur)
