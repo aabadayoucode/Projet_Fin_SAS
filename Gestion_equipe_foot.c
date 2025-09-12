@@ -516,7 +516,7 @@ void modifierNbrBut(struct Joueur J[], int position)
     {
         J[position].buts = NouveauNbrBut;
         printf("\n-------------------------------------------------------------\n");
-        printf("---------------La modification a fait avec succes !-------------\n");
+        printf("--------------La modification a fait avec succes !-------------\n");
         printf("\n--------------------------------------------------------------\n");
     }
 }
