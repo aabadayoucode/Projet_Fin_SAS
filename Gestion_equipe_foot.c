@@ -194,7 +194,7 @@ int ajouterJoueur(struct Joueur J[], int nbrJoueur)
 
             if (posStatut < 1 || posStatut > 2)
             {
-                printf("\n-----------------il faut donner un choix entre 1 et 2!----------------------------\n");
+                printf("\n-----------------Il faut donner un choix entre 1 et 2!----------------------------\n");
             }
             else
             {
